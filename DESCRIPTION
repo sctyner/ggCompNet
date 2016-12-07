@@ -4,7 +4,7 @@ Title: Visual Comparison of Network Visualizations in R
 Version: 0.1.0
 Authors@R: c(
   person("Sam", "Tyner", email = "sctyner@iastate.edu", role = c("aut", "cre")),
-  person("Heike", "Hofmann", email ="heike.hofmann@gmail.com", "aut")
+  person("Heike", "Hofmann", email ="heike.hofmann@gmail.com", role= "aut")
   )
 Description: More about what it does (maybe more than one line)
 License: GPL (>= 2)
@@ -17,5 +17,8 @@ Depends:
     geomnet (>= 0.2.0),
     ggnetwork (>= 0.5.1),
     GGally (>= 1.3.0)
+Imports:
+    igraph (>= 1.0.1),
+    sna (>= 2.4)
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr

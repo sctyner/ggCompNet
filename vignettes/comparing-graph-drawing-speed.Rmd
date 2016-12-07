@@ -25,7 +25,7 @@ knitr::opts_chunk$set(fig.width = 6,
 
 This vignette provides access to the online supplement to the paper ``Network Visualization with `ggplot2` ``. 
 
-The code to access data for all of the examples and to reproduce all of the figures is available at [tyner-briatte-hofmann.R](https://raw.githubusercontent.com/sctyner/ggnet-paper/master/tyner-briatte-hofmann.R).
+This vignette shows all of the code and gives access to the data for all of the examples and to reproduce all of the figures.
 
 A summary of the speed comparisons is shown in the paper. A more detailed outline together with the code to reproduce findings is given in the next section.
 
@@ -41,30 +41,30 @@ First, load all of the necessary packages and data sets.
 
 ```{r speed1_loadpkg, echo = TRUE, eval = FALSE, message=FALSE, warning = FALSE}
 ## igraph (current: v1.0.1)
-if (!require(igraph, quietly = TRUE)) {
-  install.package("igraph")
-}
+#if (!require(igraph, quietly = TRUE)) {
+#  install.package("igraph")
+#}
 library(igraph)
 
 ## network (current: v1.13.0)
-if (!require(network, quietly = TRUE)) {
-  install.package("network")
-}
+#if (!require(network, quietly = TRUE)) {
+#  install.package("network")
+#}
 library(network)
 
 ## ggnet2
-if (!require(GGally, quietly = TRUE)) {
-  install.packages("GGally")
-}
+#if (!require(GGally, quietly = TRUE)) {
+#  install.packages("GGally")
+#}
 library(GGally)
 
 ## geom_net
 library(geomnet) # also currently requires dplyr
 
 ## ggnetwork
-if (!require(ggnetwork, quietly = TRUE)) {
-  install.packages("ggnetwork")
-}
+#if (!require(ggnetwork, quietly = TRUE)) {
+#  install.packages("ggnetwork")
+#}
 library(ggnetwork)
 
 ## pre-loading
@@ -141,17 +141,13 @@ if (!file.exists("runtimes-protein-100.csv")) {
 }
 ```
 
-Finally, compare the 100 runtimes for each method side-by-side. In the resulting plot below, we use our own data, which can be found [here](https://raw.githubusercontent.com/sctyner/ggnet-paper/master/runtimes-protein/runtimes-protein-100.csv). 
+Finally, compare the 100 runtimes for each method side-by-side. In the resulting plot below, we use our own data, which we have made part of the `ggCompNet` package in form of the data object `runtimes_protein`. 
 
-```{r speed1_cheatdata, echo=FALSE}
-load("../inst/runtimes-protein.rda")
-```
-```{r speed1_viewdata, echo = TRUE, eval = FALSE}
-link_to_data <- "runtimes-protein-100.csv"
-g = read.csv(link_to_data, stringsAsFactors = FALSE) %>%
-      gather(`Visualization approach`, time, -iteration)
-```
 ```{r speed1_plot, echo=TRUE}
+data(runtimes_protein, package = "ggCompNet")
+g = runtimes_protein %>%
+      gather(`Visualization approach`, time, -iteration)
+
 ggplot(g, aes(x = `Visualization approach`, y = time,
               fill = `Visualization approach`)) +
   geom_boxplot() +
@@ -262,7 +258,10 @@ g = list.files(pattern = "runtimes-(.*)csv$") %>%
 ```{r all-runtimes, eval=TRUE, echo=FALSE, fig.width = 8, fig.height = 8}
 # link_to_full_comparison <- "https://raw.githubusercontent.com/sctyner/ggnet-paper/master/data/compare-all.csv"
 # g <- readr::read_csv(link_to_full_comparison)
-load("../inst/compare-all.rda")
+#load("../inst/compare-all.rda")
+
+data(compare_all, package = "ggCompNet")
+g <- compare_all
 qplot(data = g, network_size, time, colour = `Visualization approach`, alpha = I(0.1)) +
   facet_wrap(facets = ~setup, scales = "free_y") +
   geom_smooth(fill="white") +
