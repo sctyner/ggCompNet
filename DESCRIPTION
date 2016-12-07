@@ -2,7 +2,10 @@ Package: ggCompNet
 Type: Package
 Title: Visual Comparison of Network Visualizations in R
 Version: 0.1.0
-Authors@R: person("Sam", "Tyner", email = "sctyner@iastate.edu", role = c("aut", "cre"))
+Authors@R: c(
+  person("Sam", "Tyner", email = "sctyner@iastate.edu", role = c("aut", "cre")),
+  person("Heike", "Hofmann", email ="heike.hofmann@gmail.com", "aut")
+  )
 Description: More about what it does (maybe more than one line)
 License: GPL (>= 2)
 URL: http://github.com/sctyner/ggCompNet

@@ -1,0 +1,14 @@
+base
+dplyr
+tidyr
+ggplot2
+scales
+GGally
+geomnet
+ggnetwork
+ggraph
+network
+statnet.common
+sna
+survival
+ggmap
