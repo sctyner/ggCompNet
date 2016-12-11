@@ -1,14 +1,23 @@
 #' Time drawings of random graphs
 #'
-#'
-#'
-#'
+#' @param niter integer. How many times to repeat each drawing for each drawing method. Default is 100.
+#' @param sizes integer vector. What size(s) of network (how many nodes) should be drawn? Default is \code{seq(250,25,-25)}.
+#' @param eprob numeric. Value between 0-1. Edge probability of random graph. Default is .2.
+#' @param wd character. Working directory where you want to store the timing results. Default is current working directory.
+#' @param newpack character. Name of additional package (or function) that you wish to compare to \pkg{igraph}, \pkg{network}, \code{\link[GGally]{ggnet2}}, \pkg{geomnet}, and \pkg{ggnetwork}.
+#' @param classnew character. Class of object taken to be plotted with the new method. (think \code{"igraph"}, \code{"network"}, etc.)
+#' @param newcode expression. The code required to plot the random graph using the \code{newpack} method. Must take an object called \code{n} for plotting.
 #'
 #' @export
-timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), wd = "./", newpack = NULL){
+timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), eprob = .2, wd = "./",
+                         newpack = NULL, classnew = NULL, newcode = NULL){
   pb <- progress::progress_bar$new(
          format = "  drawing [:bar] :percent eta: :eta",
          total = 100, clear = FALSE, width= 60)
+  if (is.null(newpack) + is.null(classnew) + is.null(newcode) %in% c(1,2)) {
+    stop("Error: newpack, classnew, and newcode must all be NULL or non-NULL.
+         Please provide arguments to all three or none of them.")
+  }
   # create niter/10 files per size
   if (niter %% 10 != 0) {
     stop("niter must be a multiple of 10")
@@ -28,7 +37,7 @@ timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), wd = "./", newpac
         # do this for each of the 5 methods
         for (j in 1:10) {
 
-          r = sna::rgraph(i, tprob = 0.2)
+          r = sna::rgraph(i, tprob = eprob)
 
          # cat("Network size", i,
           #    "iteration", sprintf("%3.0f", 10 * k + j), "/ 100\n")
@@ -75,7 +84,15 @@ timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), wd = "./", newpac
               row.names = NULL
             ))
           } else{
-            t6 = system.time()
+            if ("igraph" %in% newclass){
+              n = igraph::graph_from_adjacency_matrix(r, mode = "undirected")
+            } else
+              if ("network" %in% newclass){
+              n = network::network(r, directed = FALSE)
+              }
+
+            t6 = system.time(print(eval(newcode)))
+
             d = rbind(d, data.frame(
               network_size = i,
               iteration = 10 * k + j,

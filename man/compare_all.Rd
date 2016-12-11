@@ -4,9 +4,14 @@
 \name{compare_all}
 \alias{compare_all}
 \title{Runtime comparison}
-\format{much bigger data set
+\format{a data frame consisting of 50000 comparison runs across ten different systems,
+ten different network sizes, and five different packages of 100 iterations each.
 \itemize{
-  \item list all variables
+  \item setup character. Description of computer system running the code.
+  \item network_size. Size of the network (25, 50, 75, 100, 125, 150, 175, 200, 225, or 250 nodes)
+  \item iteration. Integer 1-100.
+  \item `Visualization approach`. Method used. (\code{"igraph"}, \code{"network"}, \code{"ggnet2"}, \code{"geomnet"}, or \code{"ggnetwork"})
+  \item time. Time taken to plot graph in seconds.
 }}
 \usage{
 compare_all

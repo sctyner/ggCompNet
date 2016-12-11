@@ -6,8 +6,12 @@
 \title{Runtime results from protein example}
 \format{a data frame consisting of 100 comparison runs across five different packages
 \itemize{
-  \item iteration iteration number
-  \item igraph runtime under the igraph package
+  \item iteration iteration number.
+  \item igraph runtime under the \pkg{igraph} package.
+  \item network runtime under the \pkg{network} package.
+  \item ggnet2 runtime under the \code{GGally::}\code{\link[GGally]{ggnet2}} function.
+  \item geomnet runtime under the \pkg{geomnet} package.
+  \item ggnetwork runtime under the \pkg{ggnetwork} package.
 }}
 \usage{
 runtimes_protein
