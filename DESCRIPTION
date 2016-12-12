@@ -19,6 +19,7 @@ Depends:
     GGally (>= 1.3.0)
 Imports:
     igraph (>= 1.0.1),
-    sna (>= 2.4)
+    sna (>= 2.4),
+    network
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr
