@@ -267,7 +267,7 @@ ggplot(ggnetwork(em.net, arrow.gap = 0.02, layout = "fruchtermanreingold"),
 ```
 
 ## `ggraph`
-```{r blood_ggraph, echo=TRUE, fig.cap="Blood donation example using the `ggraph` package."}
+```{r email_ggraph, echo=TRUE, fig.cap="Blood donation example using the `ggraph` package."}
 emailedges <- subset(email$edges, nrecipients <54)
 emailedges <- emailedges[, c("From", "to", "day")]
 email.igraph <- graph_from_data_frame(d = emailedges, directed = T, vertices = email$nodes)
