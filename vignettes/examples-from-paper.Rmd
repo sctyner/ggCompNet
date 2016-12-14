@@ -82,7 +82,7 @@ ggplot(data = MMnet, aes(from_id = from_id, to_id = to_id)) +
  data(madmen, package = 'geomnet')
  # data step for both ggnet2 and ggnetwork
  # create undirected network
- mm.net <- network(madmen$edges[, 1:2], directed = FALSE)
+ mm.net <- network::network(madmen$edges[, 1:2], directed = FALSE)
  # create node attribute (gender)
  rownames(madmen$vertices) <- madmen$vertices$label
  mm.net %v% "gender" <- as.character(
@@ -125,7 +125,7 @@ data(blood, package = "geomnet")
 
 # plot with ggnet2 (Figure 2a)
 set.seed(12252016)
-ggnet2(network(blood$edges[, 1:2], directed=TRUE), 
+ggnet2(network::network(blood$edges[, 1:2], directed=TRUE), 
        mode = "circle", size = 15, label = TRUE, 
        arrow.size = 10, arrow.gap = 0.05, vjust = 0.5,
        node.color = "darkred", label.color = "grey80")
@@ -147,7 +147,7 @@ ggplot(data = blood$edges, aes(from_id = from, to_id = to)) +
 ```{r blood_ggnetwork, echo=TRUE, fig.width=6, fig.height=6, fig.cap="`ggnetwork` implementation"}
 # plot with ggnetwork (Figure 2c)
 set.seed(12252016)
-ggplot(ggnetwork(network(blood$edges[, 1:2]),
+ggplot(ggnetwork(network::network(blood$edges[, 1:2]),
                  layout = "circle", arrow.gap = 0.05),
        aes(x, y, xend = xend, yend = yend)) +
   geom_edges(color = "grey50",
@@ -175,7 +175,7 @@ names(em.cet) = email$nodes$label
 edges <- subset(email$edges, nrecipients < 54)
 # create network
 em.net <- edges[, c("From", "to") ]
-em.net <- network(em.net, directed = TRUE)
+em.net <- network::network(em.net, directed = TRUE)
 # create employee type node attribute
 em.net %v% "curr_empl_type" <-
   em.cet[ network.vertex.names(em.net) ]
@@ -232,6 +232,8 @@ ggplot(ggnetwork(em.net, arrow.gap = 0.02, layout = "fruchtermanreingold"),
 ```
 
 # Small Multiples Email Example
+
+## `ggnet2`
 ```{r email_facet_ggnet2, fig.height=4, fig.width=8, echo=TRUE, out.width='\\textwidth'}
 # ggnet2 code for the email network facetted by day as shown in fig.4a
 
@@ -267,6 +269,8 @@ grid.arrange <- getFromNamespace("grid.arrange", asNamespace("gridExtra"))
 grid.arrange(grobs = g, nrow = 2)
 ```
 
+## `geomnet`
+
 ```{r email_facet_geom_net, fig.height=4.5, fig.width=8, echo=TRUE}
 # geomnet code for the  email network facetted by day as shown in fig.4b
 
@@ -289,15 +293,17 @@ ggplot(data = emailnet, aes(from_id = from, to_id = to_id)) +
         panel.border = element_rect(fill = NA, colour = "grey60"),
         plot.margin = unit(c(0, 0, 0, 0), "mm"))
 ```
+## `ggnetwork`
+
 ```{r email_facet_ggnetwork, fig.height=4.5, fig.width=8,echo=TRUE}
 # ggnetwork code for the  email network facetted by day as shown in fig.4c
 
 # create the network and aesthetics
 edges <- subset(email$edges, nrecipients < 54)
 edges <- edges[, c("From", "to", "day") ]
-em.net <- network(edges[, 1:2])
+em.net <- network::network(edges[, 1:2])
 # assign edge attributes (day)
-set.edge.attribute(em.net, "day", edges[, 3])
+network::set.edge.attribute(em.net, "day", edges[, 3])
 # assign node attributes (employee type)
 em.net %v% "curr_empl_type" <- em.cet[ network.vertex.names(em.net) ]
 
@@ -317,12 +323,14 @@ ggplot(ggnetwork(em.net, arrow.gap = 0.02, by = "day",
 ```
 
 # `ggplot2` Theme Element Inheritance Network
+
+## `ggnet2`
 ```{r theme_ggnet2, echo=TRUE}
 # make data accessible
 data(theme_elements, package = "geomnet")
 
 # create network object
-te.net <- network(theme_elements$edges)
+te.net <- network::network(theme_elements$edges)
 # assign node attribut (size based on node degree)
 te.net %v% "size" <-
   sqrt(10 * (sna::degree(te.net) + 1))
@@ -330,6 +338,8 @@ set.seed(3272016)
 ggnet2(te.net, label = TRUE, color = "white", label.size = "size",
        mode = "fruchtermanreingold", layout.exp = 0.15)
 ```
+## `geomnet`
+
 ```{r theme_geom_net, echo=TRUE, fig.width=7, fig.height = 7}
 # data step: merge nodes and edges and
 # introduce a degree-out variable
@@ -350,6 +360,9 @@ ggplot(data = TEnet,
   theme_net() +
   xlim(c(-0.05, 1.05))
 ```
+
+## `ggnetwork`
+
 ```{r theme_ggnetwork, echo=TRUE}
 set.seed(3272016)
 # use network created in ggnet2 data step
@@ -365,13 +378,15 @@ ggplot(ggnetwork(te.net, layout = "fruchtermanreingold"),
 ```
 
 # College Football 
+
+## `ggnet2`
 ```{r football_ggnet2,echo=TRUE}
 #make data accessible
 data(football, package = 'geomnet')
 rownames(football$vertices) <-
   football$vertices$label
 # create network 
-fb.net <- network(football$edges[, 1:2],
+fb.net <- network::network(football$edges[, 1:2],
                   directed = TRUE)
 # create node attribute (what conference is team in?)
 fb.net %v% "conf" <-
@@ -379,7 +394,7 @@ fb.net %v% "conf" <-
     network.vertex.names(fb.net), "value"
     ]
 # create edge attribute (between teams in same conference?)
-set.edge.attribute(
+network::set.edge.attribute(
   fb.net, "same.conf",
   football$edges$same.conf)
 set.seed(5232011)
@@ -388,6 +403,9 @@ ggnet2(fb.net, mode = "fruchtermanreingold",
        color.legend = "Conference",
        edge.color = c("color", "grey75"))
 ```
+
+## `geomnet`
+
 ```{r football_geom_net, fig.height=10, echo=TRUE}
 # data step: merge vertices and edges
 ftnet <- fortify(as.edgedf(football$edges), football$vertices)
@@ -412,6 +430,8 @@ ggplot(data = ftnet,
   guides(linetype = FALSE)
 ```
 
+## `ggnetwork`
+
 ```{r football_ggnetwork, echo=TRUE}
 # use network from ggnet2 step
 set.seed(5232011)
@@ -432,6 +452,8 @@ ggplot(
 ```
 
 # Southern Women (Bipartite Network) Example
+
+## Load Data
 ```{r davis_data_1, echo=TRUE}
 # access the data and rename it for convenience
 library(tnet)
@@ -449,13 +471,15 @@ davis <- rbind(davis, data.frame(from=davis$to, to=davis$from))
 davis$type <- factor(c(rep("Lady", nrow(elist)), rep("Event", nrow(elist))))
 ```
 
+## `ggnet2`
+
 ```{r davis_ggnet2, echo=TRUE, warning=FALSE}
 # Southern women network in ggnet2
 # create affiliation matrix
 bip = xtabs(~Event+Lady, data=elist)
 
 # weighted bipartite network
-bip = network(bip,
+bip = network::network(bip,
               matrix.type = "bipartite",
               ignore.eval = FALSE,
               names.eval = "weights")
@@ -467,6 +491,8 @@ bip = network(bip,
   #     size = 15, label = TRUE) +
 #  theme(legend.position="bottom")
 ```
+
+## `geomnet`
 
 ```{r davis_geom_net, echo=TRUE}
 # Southern women network in geomnet
@@ -488,10 +514,12 @@ ggplot(data = davis) +
   theme(legend.position = "bottom")
 ```
 
+## `ggnetwork`
+
 ```{r davis_ggnetwork, echo=TRUE, warning=FALSE}
 # Southern women network in ggnetwork. Use data from ggnet2 step
 # assign vertex attributes (Node type and label)
-set.vertex.attribute(bip, "mode", 
+network::set.vertex.attribute(bip, "mode", 
   c(rep("event", 14), rep("woman", 18)))
 set.seed(8262013)
 ggplot(data = ggnetwork(bip, layout = "kamadakawai"),
@@ -505,6 +533,8 @@ ggplot(data = ggnetwork(bip, layout = "kamadakawai"),
 ```
 
 # Captial Bikeshare
+
+## `geomnet`
 ```{r bikes_geom_net, echo=TRUE, warning=FALSE, fig.keep='all'}
 # make data accessible
 data(bikes, package = 'geomnet')
@@ -526,9 +556,11 @@ ggplot(aes(from_id = from_id, to_id = to_id), data = tripnet) +
   theme(legend.position = "bottom")
 ```
 
+## Data Preparation (`ggnet2`, `ggnetwork`)
+
 ```{r bikes_prepare, echo = TRUE}
 # data preparation for ggnet2 and ggnetwork
-bikes.net <- network(bikes$trips[, 1:2 ], directed = FALSE)
+bikes.net <- network::network(bikes$trips[, 1:2 ], directed = FALSE)
 # create edge attribute (number of trips)
 network::set.edge.attribute(bikes.net, "n", bikes$trips[, 3 ] / 15)
 # create vertex attribute for Metro Station
@@ -542,6 +574,9 @@ bikes.net %v% "lat" <-
   bikes$stations[ network.vertex.names(bikes.net), "lat" ]
 bikes.col <- c("grey40", "darkorange")
 ```
+
+## `ggnet2`
+
 ```{r bikes_ggnet2, echo = TRUE, fig.keep='all'}
 # Non-geographic placement
 set.seed(1232016)
@@ -550,6 +585,9 @@ ggnet2(bikes.net, mode = "fruchtermanreingold", size = 4, label = TRUE,
        color = bikes.col[ bikes.net %v% "station" ],
        label.color = bikes.col[ bikes.net %v% "station" ])
 ```
+
+## `ggnetwork`
+
 ```{r bikes_ggnetwork, echo = TRUE, fig.keep='all'}
 # Non-geographic placement. Use data from ggnet2 step.
 set.seed(1232016)
@@ -565,14 +603,19 @@ ggplot(data = ggnetwork(bikes.net, layout.alg = "fruchtermanreingold"),
   theme_blank() +
   theme(legend.position = "bottom", legend.box = "horizontal")
 ```
+
+## Geographically Accurate Layout
+
 ```{r geographic_common, echo=TRUE}
-library(ggmap)
-metro_map <- get_map(location = c(left = -77.22257, bottom = 39.05721, 
+metro_map <- ggmap::get_map(location = c(left = -77.22257, bottom = 39.05721, 
                                   right = -77.11271, top = 39.14247))
 ```
+
+### `geomnet`
+
 ```{r geographic_geomnet, echo=TRUE}
 # geomnet: overlay bike sharing network on geographic map
-  ggmap(metro_map) + 
+  ggmap::ggmap(metro_map) + 
   geom_net(data = tripnet, layout.alg = NULL, labelon = TRUE,
            vjust = -0.5, ealpha = 0.5,
            aes(from_id = from_id,

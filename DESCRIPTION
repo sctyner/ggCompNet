@@ -23,6 +23,7 @@ Depends:
 Imports:
     igraph (>= 1.0.1),
     sna (>= 2.4),
-    network
+    network, 
+    ggmap
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr
