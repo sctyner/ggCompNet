@@ -12,7 +12,7 @@ vignette: >
 ---
 # Intro
 
-This vignette is intended to provide several examples of different network visualization methods in the `ggplot2` / "tidyverse" framework. Three of the the methods, [the `geomnet` package](https://github.com/sctyner/geomnet), [the `ggnetwork` package](https://github.com/briatte/ggnetwork), and [the function `GGally::ggnet2`](https://github.com/ggobi/ggally), are detailed in the paper *Network Visualization with `ggplot2`* by the authors of this vignette. The fourth method, [the `ggraph` package](https://github.com/thomasp85/ggraph) by Thomas Pedersen has been included for completeness. 
+This vignette is intended to provide several examples of different network visualization methods in the `ggplot2` / "tidyverse" framework. The methods, [the `geomnet` package](https://github.com/sctyner/geomnet), [the `ggnetwork` package](https://github.com/briatte/ggnetwork), and [the function `GGally::ggnet2`](https://github.com/ggobi/ggally), are detailed in the paper *Network Visualization with `ggplot2`* by the authors of this vignette. 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.width=7, fig.height=7.5)
@@ -42,13 +42,6 @@ if (!require(ggnetwork, quietly = TRUE) ||
   getFromNamespace("install_github", asNamespace("devtools"))("briatte/ggnetwork")
 }
 
-## ggraph
-if (!require(ggraph, quietly = TRUE) ||
-    packageVersion("ggraph") < "0.1.1") {
-  getFromNamespace("install_github", asNamespace("devtools"))("thomasp85/ggraph")
-}
-
-
 ## pre-load
 library(network)
 library(sna)
@@ -56,8 +49,6 @@ library(GGally)
 library(geomnet)
 library(ggnetwork)
 library(igraph)
-library(ggraph)
-library(gcookbook)
 ```
 
 # Mad Men Relationship Network Example
@@ -123,19 +114,6 @@ ggplot(data = MMnet, aes(from_id = from_id, to_id = to_id)) +
    theme(legend.position = "bottom")
 ```
 
-## ggraph
-```{r madmen_ggraph, echo=TRUE, fig.cap="Mad Men example using the `ggraph` package."}
-mm.igraph <- graph_from_data_frame(d = madmen$edges, directed = F, vertices = madmen$vertices)
-set.seed(10052016)
-ggraph(mm.igraph, layout = 'igraph', algorithm = 'kk') + 
-  geom_edge_link(edge_colour = 'grey50') + 
-  geom_node_point(aes(colour = Gender), size = 3) + 
-  geom_node_text(aes(label = name, color = Gender), size = 3, vjust = -.6) + 
-  scale_colour_manual(values = mm.col) +
-  ggforce::theme_no_axes() + 
-  theme(aspect.ratio = 1)
-```
-
 # Blood Donation Example 
 
 Blood donation "network": which blood types can give and receive?
@@ -177,19 +155,6 @@ ggplot(ggnetwork(network(blood$edges[, 1:2]),
   geom_nodes(size = 15, color = "darkred") +
   geom_nodetext(aes(label = vertex.names), color = "grey80") +
   theme_blank()
-```
-
-## `ggraph`
-```{r blood_ggraph, echo=TRUE, fig.cap="Blood donation example using the `ggraph` package."}
-blood.igraph <- graph_from_data_frame(d = blood$edges, directed = T, vertices = unique(blood$vertices[, 1:3]))
-set.seed(12252016)
-ggraph(blood.igraph, layout = 'igraph', algorithm = 'circle') + 
-  geom_edge_link0(edge_colour = 'grey50', arrow = arrow(length = unit(15, "pt"), type = "closed")) + 
-  geom_node_point(size = 10, colour = 'darkred') + 
-  geom_node_text(aes(label = name), colour = 'grey80') + 
-  scale_colour_manual(values = mm.col) +
-  ggforce::theme_no_axes() + 
-  theme(aspect.ratio = 1)
 ```
 
 # Email Network Example
@@ -264,23 +229,6 @@ ggplot(ggnetwork(em.net, arrow.gap = 0.02, layout = "fruchtermanreingold"),
                      palette = "Set1") +
   theme_blank() +
   theme(legend.position = "bottom")
-```
-
-## `ggraph`
-```{r email_ggraph, echo=TRUE, fig.cap="Blood donation example using the `ggraph` package."}
-emailedges <- subset(email$edges, nrecipients <54)
-emailedges <- emailedges[, c("From", "to", "day")]
-email.igraph <- graph_from_data_frame(d = emailedges, directed = T, vertices = email$nodes)
-set.seed(10312016)
-ggraph(email.igraph, layout = 'igraph', algorithm = 'fr') + 
-  geom_edge_link(edge_alpha = 0.25,
-    arrow = arrow(length = unit(5, "pt"),
-                  type = "closed")) + 
-  geom_node_point(size = 4, aes(color = CurrentEmploymentType)) + 
-  geom_node_text(aes(label = name), colour = 'grey80') + 
-  scale_colour_manual(values = mm.col) +
-  ggforce::theme_no_axes() + 
-  theme(aspect.ratio = 1)
 ```
 
 # Small Multiples Email Example
