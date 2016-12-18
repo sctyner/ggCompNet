@@ -8,6 +8,10 @@
 #' @param classnew character. Class of object taken to be plotted with the new method. (think \code{"igraph"}, \code{"network"}, etc.)
 #' @param newcode expression. The code required to plot the random graph using the \code{newpack} method. Must take an object called \code{n} for plotting.
 #'
+#' @importFrom grDevices dev.off
+#' @importFrom graphics plot
+#' @importFrom utils write.csv
+#'
 #' @export
 timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), eprob = .2, wd = "./",
                          newpack = NULL, classnew = NULL, newcode = NULL){
@@ -45,31 +49,31 @@ timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), eprob = .2, wd = 
           n = igraph::graph_from_adjacency_matrix(r, mode = "undirected")
 
           t1 = system.time({
-            plot(n, vertex.label = NA)
+            igraph::plot.igraph(n, vertex.label = NA)
           })[1]
 
           n = network::network(r, directed = FALSE)
 
           t2 = system.time({
-            plot.network(n)
+            network::plot.network(n)
           })[1]
 
           t3 = system.time({
-            print(ggnet2(n))
+            print(GGally::ggnet2(n))
           })[1]
 
-          e = fortify(as.adjmat(network::as.matrix.network.adjacency(n)))
+          e = geomnet::fortify.adjmat(as.adjmat(network::as.matrix.network.adjacency(n)))
 
           t4 = system.time({
-            print(ggplot(data = e) +
-                    geom_net(aes(from_id = from, to_id = to)))
+            print(ggplot2::ggplot(data = e) +
+                    geomnet::geom_net(aes(from_id = from, to_id = to)))
           })[1]
 
           t5 = system.time({
-            print(ggplot(ggnetwork(n),
+            print(ggplot2::ggplot(ggnetwork::ggnetwork(n),
                          aes(x, y, xend = xend, yend = yend)) +
-                    geom_edges() +
-                    geom_nodes())
+                    ggnetwork::geom_edges() +
+                    ggnetwork::geom_nodes())
           })[1]
 
           if (is.null(newpack)){
