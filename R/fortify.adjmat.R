@@ -3,14 +3,15 @@
 #' @param model An adjacency matrix of class \code{"adjmat"}.
 #' @param data not used in this function
 #' @param ...  not used in this function
-#' @export
 #' @importFrom tidyr gather
 #' @importFrom readr parse_number
+#' @importFrom ggplot2 fortify
 #' @examples
+#' library(ggCompNet)
 #' data(emon, package = "network")
 #' adjmat <- geomnet::as.adjmat(network::as.matrix.network.adjacency(emon$MtSi))
 #' str(adjmat)
-#' fortify.adjmat(adjmat)
+#' ggCompNet:::fortify.adjmat(adjmat)
 fortify.adjmat <- function(model, data = NULL,  ...){
   net <- model
   if (dim(net)[1] != dim(net)[2]){

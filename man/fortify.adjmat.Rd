@@ -17,9 +17,10 @@
 Function for converting a network adjacency matrix into the correct format for use with geomnet
 }
 \examples{
+library(ggCompNet)
 data(emon, package = "network")
 adjmat <- geomnet::as.adjmat(network::as.matrix.network.adjacency(emon$MtSi))
 str(adjmat)
-fortify.adjmat(adjmat)
+ggCompNet:::fortify.adjmat(adjmat)
 }
 
