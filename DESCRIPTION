@@ -27,7 +27,8 @@ Imports:
     tidyr,
     tnet,
     scales,
-    gridExtra
+    gridExtra,
+    readr
 Suggests: 
     knitr,
     rmarkdown

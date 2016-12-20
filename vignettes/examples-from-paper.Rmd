@@ -15,7 +15,7 @@ vignette: >
 This vignette is intended to provide several examples of different network visualization methods in the `ggplot2` / "tidyverse" framework. The methods, [the `geomnet` package](https://github.com/sctyner/geomnet), [the `ggnetwork` package](https://github.com/briatte/ggnetwork), and [the function `GGally::ggnet2`](https://github.com/ggobi/ggally), are detailed in the paper *Network Visualization with `ggplot2`* by the authors of this vignette. 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache=TRUE, fig.width=7, fig.height=7.5)
+knitr::opts_chunk$set(echo = TRUE, cache=FALSE, fig.width=7, fig.height=7.5)
 ```
 
 # Required Packages 

@@ -71,7 +71,7 @@ timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), eprob = .2, wd = 
 
           from = NULL
           to = NULL
-          e = geomnet:::fortify.adjmat(geomnet::as.adjmat(network::as.matrix.network.adjacency(n)))
+          e = fortify.adjmat(geomnet::as.adjmat(network::as.matrix.network.adjacency(n)))
 
           t4 = system.time({
             print(ggplot2::ggplot(data = e) +
