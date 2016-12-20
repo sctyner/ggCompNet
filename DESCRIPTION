@@ -17,8 +17,7 @@ Depends:
     geomnet (>= 0.2.0),
     ggnetwork (>= 0.5.1),
     GGally (>= 1.3.0),
-    knitr,
-    rmarkdown
+    progress
 Imports:
     dplyr,
     igraph (>= 1.0.1),
@@ -28,6 +27,9 @@ Imports:
     tidyr,
     tnet,
     scales,
-    progress
+    gridExtra
+Suggests: 
+    knitr,
+    rmarkdown
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr

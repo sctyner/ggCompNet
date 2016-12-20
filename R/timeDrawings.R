@@ -11,7 +11,14 @@
 #' @importFrom grDevices dev.off
 #' @importFrom graphics plot
 #' @importFrom utils write.csv
-#'
+#' @importFrom sna rgraph
+#' @importFrom igraph graph_from_adjacency_matrix plot.igraph
+#' @importFrom network network plot.network as.matrix.network.adjacency
+#' @importFrom progress progress_bar
+#' @importFrom GGally ggnet2
+#' @importFrom ggplot2 ggplot aes
+#' @importFrom ggnetwork ggnetwork geom_edges geom_nodes
+#' @importFrom geomnet as.adjmat geom_net
 #' @export
 timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), eprob = .2, wd = "./",
                          newpack = NULL, classnew = NULL, newcode = NULL){
@@ -62,16 +69,22 @@ timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), eprob = .2, wd = 
             print(GGally::ggnet2(n))
           })[1]
 
-          e = geomnet::fortify.adjmat(as.adjmat(network::as.matrix.network.adjacency(n)))
+          from = NULL
+          to = NULL
+          e = geomnet:::fortify.adjmat(geomnet::as.adjmat(network::as.matrix.network.adjacency(n)))
 
           t4 = system.time({
             print(ggplot2::ggplot(data = e) +
-                    geomnet::geom_net(aes(from_id = from, to_id = to)))
+                    geomnet::geom_net(ggplot2::aes(from_id = from, to_id = to)))
           })[1]
 
+          x = NULL
+          y = NULL
+          xend = NULL
+          yend = NULL
           t5 = system.time({
             print(ggplot2::ggplot(ggnetwork::ggnetwork(n),
-                         aes(x, y, xend = xend, yend = yend)) +
+                         ggplot2::aes(x = x, y = y, xend = xend, yend = yend)) +
                     ggnetwork::geom_edges() +
                     ggnetwork::geom_nodes())
           })[1]
@@ -88,10 +101,10 @@ timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), eprob = .2, wd = 
               row.names = NULL
             ))
           } else{
-            if ("igraph" %in% newclass){
+            if ("igraph" %in% classnew){
               n = igraph::graph_from_adjacency_matrix(r, mode = "undirected")
             } else
-              if ("network" %in% newclass){
+              if ("network" %in% classnew){
               n = network::network(r, directed = FALSE)
               }
 
