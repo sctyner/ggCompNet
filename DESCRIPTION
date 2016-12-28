@@ -1,12 +1,12 @@
 Package: ggCompNet
 Type: Package
-Title: Compare Timing of Network Visualizations in R
+Title: Compare Timing of Network Visualizations
 Version: 0.1.0
 Authors@R: c(
   person("Sam", "Tyner", email = "sctyner@iastate.edu", role = c("aut", "cre")),
   person("Heike", "Hofmann", email ="heike.hofmann@gmail.com", role= "aut")
   )
-Description: The package has two purposes: 1) to provide a function to compare the speed of network drawing using several different packages, and 2) to host vignettes that provide code for reproducing examples in the paper "Network visualization with ggplot2" by Tyner et al. 
+Description: We provide two primary resources in ggCompNet: 1) a function to compare the speed of network drawing using several different packages, and 2) vignettes that provide code for reproducing examples comparing the three network visualization packages \pkg{geomnet}, \pkg{ggnetwork}, and \code{\link[GGally]{ggnet2}} 
 License: GPL (>= 2)
 URL: http://github.com/sctyner/ggCompNet
 BugReports: https://github.com/sctyner/ggCompNet/issues
