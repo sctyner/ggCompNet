@@ -6,7 +6,7 @@ Authors@R: c(
   person("Sam", "Tyner", email = "sctyner@iastate.edu", role = c("aut", "cre")),
   person("Heike", "Hofmann", email ="heike.hofmann@gmail.com", role= "aut")
   )
-Description: We provide two primary resources in \code{ggCompNet}. The first is a function to compare the speed of network drawing using several different packages. The second is the vignettes that provide code for reproducing examples comparing the three network visualization packages \pkg{geomnet}, \pkg{ggnetwork}, and \code{\link[GGally]{ggnet2}} 
+Description: We provide two primary resources in ggCompNet. The first is a function to compare the speed of network drawing using several different packages. The second is the vignette folder which contains two vignettes that provide code for reproducing examples comparing the three network visualization packages geomnet, ggnetwork, and the ggnet2 function from the GGally package. 
 License: GPL (>= 2)
 URL: http://github.com/sctyner/ggCompNet
 BugReports: https://github.com/sctyner/ggCompNet/issues
