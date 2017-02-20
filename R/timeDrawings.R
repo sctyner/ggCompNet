@@ -57,17 +57,17 @@ timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), eprob = .2, wd = 
 
           t1 = system.time({
             igraph::plot.igraph(n, vertex.label = NA)
-          })[1]
+          })[3]
 
           n = network::network(r, directed = FALSE)
 
           t2 = system.time({
             network::plot.network(n)
-          })[1]
+          })[3]
 
           t3 = system.time({
             print(GGally::ggnet2(n))
-          })[1]
+          })[3]
 
           from = NULL
           to = NULL
@@ -76,7 +76,7 @@ timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), eprob = .2, wd = 
           t4 = system.time({
             print(ggplot2::ggplot(data = e) +
                     geomnet::geom_net(ggplot2::aes(from_id = from, to_id = to)))
-          })[1]
+          })[3]
 
           x = NULL
           y = NULL
@@ -87,7 +87,7 @@ timeDrawings <- function(niter = 100, sizes = seq(250,25,-25), eprob = .2, wd = 
                          ggplot2::aes(x = x, y = y, xend = xend, yend = yend)) +
                     ggnetwork::geom_edges() +
                     ggnetwork::geom_nodes())
-          })[1]
+          })[3]
 
           if (is.null(newpack)){
             d = rbind(d, data.frame(
